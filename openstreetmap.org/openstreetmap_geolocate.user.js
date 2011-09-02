@@ -4,6 +4,8 @@
 // @copyright     2010+, Samat Jain (http://samat.org)
 // @version       2.0
 // @description   Adds a "Geolocate me" button that centers the map to your current location as reported via HTML5 geolocation
+// @match         http://www.openstreetmap.org/*
+// @match         http://openstreetmap.org/*
 // @include       http://www.openstreetmap.org/*
 // @include       http://openstreetmap.org/*
 // @license       GPL version 2 or any later version; http://www.gnu.org/copyleft/gpl.html
