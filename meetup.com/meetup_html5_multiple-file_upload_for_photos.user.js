@@ -1,26 +1,31 @@
 // ==UserScript==
 // @name           Meetup: HTML5 multiple-file upload for photos
 // @namespace      http://samat.org/
-// @copyright			 2011+, Samat Jain (http://samat.org)
-// @version        1.0
+// @author         Samat Jain http://samat.org/
+// @version        2.0
 // @description    Converts Meetup.com's old HTML upload page to use HTML5 multiple file upload. No more Adobe Flash!
+// @match          http://www.meetup.com/*/photos/upload/*
+// @match          http://meetup.com/*/photos/upload/*
 // @include        http://www.meetup.com/*/photos/upload/*
 // @include        http://meetup.com/*/photos/upload/*
-// @license        GPL version 2 or any later version; http://www.gnu.org/copyleft/gpl.html
 // ==/UserScript==
 
 function hideUnneededElements()
 {
   function generateNames()
   {
-    yield 'Description_1';
+    var items = [];
+    items.push('Description_1');
     for (var i=2; i <= 10; ++i) {
-      yield 'FileName_' + i;
-      yield 'Description_' + i;
+      items.push('FileName_' + i);
+      items.push('Description_' + i);
     }
+    return items;
   }
 
-  for each (var itemName in generateNames()) {
+  var items = generateNames();
+  for (var i=0, l=items.length; i<l ; ++i) {
+    itemName = items[i];
     input_element = document.getElementsByName(itemName)[0];
     if (!input_element) continue;
     
@@ -62,6 +67,8 @@ function populateFileList()
 function addMultipleFileUploadAttributes()
 {
   var elm = document.getElementsByName('FileName_1')[0];
+  if (!elm) return;
+
   elm.accept = 'image/*';
   elm.multiple = 'multiple';
   elm.onchange = populateFileList;
@@ -77,25 +84,23 @@ if ('undefined' == typeof __PAGE_SCOPE_RUN__) {
     // know we are running in the page scope (not the Greasemonkey sandbox).
     // Note that we are intentionally *not* scope-wrapping here.
     var script = document.createElement('script');
-    script.setAttribute("type", "application/javascript;version=1.8");
-    script.setAttribute("src",
-        "data:,"+escape("var __PAGE_SCOPE_RUN__ = true;\n" + my_src));
+    script.setAttribute("type", "application/javascript");
+    script.textContent = "var __PAGE_SCOPE_RUN__ = true;\n" + my_src;
 
     // Insert the script node into the page, so it will run, and immediately
     // remove it to clean up.  Use setTimeout to force execution "outside" of
     // the user script scope completely.
     setTimeout(function() {
           document.body.appendChild(script);
-          document.body.removeChild(script);
+          //document.body.removeChild(script);
         }, 0);
   })();
 
   // Stop running, because we know Greasemonkey actually runs us in
   // an anonymous wrapper.
-  return;
+  return; 
 } else {
   // We're running in page scope
   addMultipleFileUploadAttributes();
   hideUnneededElements();
 }
-
