@@ -2,7 +2,7 @@
 // @name           Meetup: HTML5 multiple-file upload for photos
 // @namespace      http://samat.org/
 // @author         Samat Jain http://samat.org/
-// @version        2.0
+// @version        2.1
 // @description    Converts Meetup.com's old HTML upload page to use HTML5 multiple file upload. No more Adobe Flash!
 // @match          http://www.meetup.com/*/photos/upload/*
 // @match          http://meetup.com/*/photos/upload/*
@@ -90,7 +90,7 @@ if ('undefined' == typeof __PAGE_SCOPE_RUN__) {
     // Insert the script node into the page, so it will run, and immediately
     // remove it to clean up.  Use setTimeout to force execution "outside" of
     // the user script scope completely.
-    setTimeout(function() {
+    window.setTimeout(function() {
           document.body.appendChild(script);
           //document.body.removeChild(script);
         }, 0);
